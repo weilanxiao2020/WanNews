@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WanNews</string>
+
+    <!-- 底部导航栏 -->
+    <string name="rb_bottom_news_label">资讯</string>
+    <string name="rb_bottom_project_label">项目</string>
+    <string name="rb_bottom_part_label">广场</string>
+    <string name="rb_bottom_public_label">公众号</string>
+    <string name="rb_bottom_mine_label">用户</string>
 </resources>
