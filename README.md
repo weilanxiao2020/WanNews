@@ -1,0 +1,2 @@
+# WanNews
+WanNews
