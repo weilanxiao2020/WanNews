@@ -1,16 +1,19 @@
-package com.miyako.wannews.ui
+package com.miyako.wannews.ui.main
 
 import android.os.Bundle
 import com.miyako.util.LogUtils
 import com.miyako.wannews.R
 import com.miyako.wannews.base.BaseActivity
 import com.miyako.wannews.data.ArticleDto
+import com.miyako.wannews.ui.main.news.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Response
 
 
 class MainActivity : BaseActivity() {
+
+    lateinit var newsFragment: NewsFragment
 
     override fun getLayoutId() : Int{
         return R.layout.activity_main
@@ -63,20 +66,26 @@ class MainActivity : BaseActivity() {
     }
 
     fun getArticle(idx :Int) {
-        val repos: Call<ArticleDto> = httpRequest.getArticleService().getArticle(idx)
-        LogUtils.d(TAG, "retrofit")
-        repos.enqueue(object : retrofit2.Callback<ArticleDto>{
-            override fun onFailure(call: Call<ArticleDto>, t: Throwable) {
-                LogUtils.e(TAG, "error")
-                LogUtils.d(TAG, call.toString())
-            }
 
-            override fun onResponse(call: Call<ArticleDto>, response: Response<ArticleDto>) {
-                LogUtils.d(TAG, "success")
-                LogUtils.d(TAG, response.body().toString())
-            }
-
-        })
+        newsFragment = NewsFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.home_container, newsFragment)
+            .commitAllowingStateLoss()
+//        val repos: Call<ArticleDto> = httpRequest.getArticleService().getArticle(idx)
+//        LogUtils.d(TAG, "retrofit")
+//        repos.enqueue(object : retrofit2.Callback<ArticleDto>{
+//            override fun onFailure(call: Call<ArticleDto>, t: Throwable) {
+//                LogUtils.e(TAG, "error")
+//                LogUtils.d(TAG, call.toString())
+//            }
+//
+//            override fun onResponse(call: Call<ArticleDto>, response: Response<ArticleDto>) {
+//                LogUtils.d(TAG, "success")
+//                LogUtils.d(TAG, response.body().toString())
+//            }
+//
+//        })
     }
 
     override fun requestData() {

@@ -2,5 +2,7 @@
 <resources>
 
     <dimen name="home_bottom_height">48dp</dimen>
+    
+    <dimen name="home_news_carousel_height">120dp</dimen>
 
 </resources>
