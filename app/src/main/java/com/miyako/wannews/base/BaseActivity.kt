@@ -1,12 +1,13 @@
 package com.miyako.wannews.base
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.miyako.wannews.R
 import com.miyako.wannews.data.HttpRequest
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : ComponentActivity() {
 
     val TAG = javaClass.simpleName
 
