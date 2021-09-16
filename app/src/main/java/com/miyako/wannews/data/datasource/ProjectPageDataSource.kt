@@ -32,9 +32,9 @@ class ProjectPageDataSource(
         val result = repo.getProjectList(loadPage, params.loadSize, classid)
         return if (result != null) {
             return LoadResult.Page(
-                data = convertEntity(result),
+                data = convertEntity(result.resultData),
                 prevKey = null,
-                nextKey = if (result.projectPage.over) null else result.projectPage.curPage + 1
+                nextKey = if (result.resultData.over) null else result.resultData.curPage + 1
             )
         } else {
             LoadResult.Error(throwable = Throwable())
@@ -44,7 +44,7 @@ class ProjectPageDataSource(
     override fun convertEntity(data: Any) : List<ProjectEntity> {
         val list = mutableListOf<ProjectEntity>()
         (data as ProjectPageDto).let { it ->
-            it.projectPage.datas.forEach {
+            it.datas.forEach {
                 LogUtils.d(TAG, "item: ${it.title}-${it.author}")
                 list.add(ProjectEntity(it.id, author = if ("" == it.author) {
                     "佚名"

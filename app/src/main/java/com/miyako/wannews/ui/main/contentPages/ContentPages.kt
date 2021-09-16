@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,16 +20,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.miyako.util.LogUtils
 import com.miyako.wannews.R
+import com.miyako.wannews.entity.IndexArticleEntity
 import com.miyako.wannews.ui.theme.SmallPadding
 import com.miyako.wannews.ui.theme.listTitle
 import com.miyako.wannews.ui.theme.textPrimary
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.toList
 import java.util.*
 
 /**
@@ -42,10 +44,12 @@ const val TAG = "ContentPages"
 
 //region News
 @Composable
-fun NewsScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
+fun IndexScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
     LogUtils.d(TAG, "compose")
 
-    val content = viewModel.getNewsPage().collectAsLazyPagingItems()
+    val topArticle = viewModel.getIndexTopArticle().collectAsState(listOf())
+    val articleList = viewModel.getIndexArticlePage().collectAsLazyPagingItems()
+
     val flag = remember {
         mutableStateOf(false)
     }
@@ -60,17 +64,16 @@ fun NewsScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
             .wrapContentSize(Alignment.TopCenter)
     ) {
         Text(
-            text = stringResource(id = R.string.rb_bottom_news_label),
+            text = stringResource(id = R.string.rb_bottom_index_label),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.primary,
             fontSize = 25.sp,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    viewModel.getNewsPage()
+                    viewModel.getIndexArticlePage()
                 }
         )
-        // LogUtils.d(TAG, "content ${content.value?.size}")
         SwipeRefresh(
             state = rememberSwipeRefreshState(false),
             onRefresh = {
@@ -78,26 +81,27 @@ fun NewsScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
             },
         ) {
             LazyColumn(Modifier.fillMaxHeight()) {
-                content.apply {
-                    items(content) {
-                        Text(text = it!!.title, style = MaterialTheme.typography.listTitle,
+                items(topArticle.value.size + articleList.itemCount ) { idx ->
+                    val article = if (idx < topArticle.value.size) topArticle.value[idx]
+                                    else articleList[idx - topArticle.value.size]
+                    article?.let {
+                        Text(text = it.title, style = MaterialTheme.typography.listTitle,
                             color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 4.dp, 4.dp, 0.dp))
                         Column(
                             Modifier
-                                .padding(4.dp, 0.dp, 4.dp, 0.dp)
+                                .padding(4.dp, 0.dp)
                                 .fillMaxWidth()) {
                             Text(text = it.author,
                                 color = MaterialTheme.colors.textPrimary, modifier = Modifier
-                                    .padding(4.dp, 0.dp, 4.dp, 0.dp)
+                                    .padding(4.dp, 0.dp)
                                     .wrapContentWidth())
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Text(text = SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(Date(it.publishTime)),
                                     color = MaterialTheme.colors.textPrimary, modifier = Modifier.wrapContentWidth(Alignment.End))
                             }
                         }
-
-                        Divider(modifier = Modifier.padding(0.dp, 4.dp))
                     }
+                    Divider(modifier = Modifier.padding(0.dp, 4.dp))
                 }
             }
         }
@@ -109,7 +113,7 @@ fun NewsScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    NewsScreen()
+    IndexScreen()
 }
 
 @Composable
@@ -129,7 +133,7 @@ fun ProjectScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
     //         fontSize = 25.sp
     //     )
     // }
-    val project = viewModel.getProjectPage(294).collectAsLazyPagingItems()
+    // val project = viewModel.getProjectPage(294).collectAsLazyPagingItems()
     val projectClass = viewModel.getProjectClass().collectAsState(listOf())
 
     val flag = remember {
@@ -145,7 +149,10 @@ fun ProjectScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
             .background(MaterialTheme.colors.background)
             .wrapContentSize(Alignment.TopCenter)
     ) {
-        LazyRow(Modifier.fillMaxWidth().padding(SmallPadding)) {
+        LazyRow(
+            Modifier
+                .fillMaxWidth()
+                .padding(SmallPadding)) {
             items(projectClass.value.size) { index ->
                 Text(text = projectClass.value[index].name, style = MaterialTheme.typography.listTitle,
                     color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 0.dp))
@@ -158,22 +165,22 @@ fun ProjectScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
             },
         ) {
             LazyColumn(Modifier.fillMaxHeight()) {
-                project.apply {
-                    items(project) {
-                        Text(text = it!!.title, style = MaterialTheme.typography.listTitle,
-                            color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 0.dp))
-                        Column(
-                            Modifier
-                                .padding(4.dp, 0.dp)
-                                .fillMaxWidth()) {
-                            Text(text = it.author,
-                                color = MaterialTheme.colors.textPrimary, modifier = Modifier
-                                    .padding(4.dp, 0.dp)
-                                    .wrapContentWidth())
-                        }
-                        Divider(modifier = Modifier.padding(0.dp, 4.dp))
-                    }
-                }
+                // project.apply {
+                //     items(project) {
+                //         Text(text = it!!.title, style = MaterialTheme.typography.listTitle,
+                //             color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 0.dp))
+                //         Column(
+                //             Modifier
+                //                 .padding(4.dp, 0.dp)
+                //                 .fillMaxWidth()) {
+                //             Text(text = it.author,
+                //                 color = MaterialTheme.colors.textPrimary, modifier = Modifier
+                //                     .padding(4.dp, 0.dp)
+                //                     .wrapContentWidth())
+                //         }
+                //         Divider(modifier = Modifier.padding(0.dp, 4.dp))
+                //     }
+                // }
             }
         }
     }
@@ -194,7 +201,7 @@ fun PublicScreen() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = stringResource(id = R.string.rb_bottom_public_label),
+            text = stringResource(id = R.string.rb_bottom_question_label),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.primary,
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -220,7 +227,7 @@ fun PartScreen() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = stringResource(id = R.string.rb_bottom_part_label),
+            text = stringResource(id = R.string.rb_bottom_public_label),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.primary,
             modifier = Modifier.align(Alignment.CenterHorizontally),

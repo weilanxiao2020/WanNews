@@ -3,21 +3,25 @@ package com.miyako.wannews.network
 import com.google.gson.annotations.SerializedName
 
 /**
- * @Description 网络请求获取的接口数据实体类
+ * @Description
  * @Author Miyako
- * @Date 2021-08-30-0030
+ * @Date 2021-09-14-0014
  */
-data class ArticlePageDto(
-    @SerializedName("data")
-    val articlePage: ArticlePage,
-    val errorCode: Int,
-    val errorMsg: String
+data class ProjectClassDto(
+    val children: List<Any>,
+    val courseId: Int,
+    val id: Int,
+    val name: String,
+    val order: Int,
+    val parentChapterId: Int,
+    val userControlSetTop: Boolean,
+    val visible: Int
 )
 
-data class ArticlePage(
+data class ProjectPageDto(
     val curPage: Int,
     @SerializedName("datas")
-    val datas: List<Article>,
+    val datas: List<Project>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,
@@ -25,7 +29,7 @@ data class ArticlePage(
     val total: Int
 )
 
-data class Article(
+data class Project(
     val apkLink: String,
     val audit: Int,
     val author: String,
@@ -53,7 +57,7 @@ data class Article(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<ArticleTag>,
+    val tags: List<ProjectTag>,
     val title: String,
     val type: Int,
     val userId: Int,
@@ -61,7 +65,8 @@ data class Article(
     val zan: Int
 )
 
-data class ArticleTag(
+data class ProjectTag(
     val name: String,
     val url: String
 )
+

@@ -1,18 +1,13 @@
 package com.miyako.wannews.ui.main.contentPages
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.*
 import androidx.paging.*
 import com.miyako.util.LogUtils
 import com.miyako.wannews.base.BaseViewModel
 import com.miyako.wannews.data.repository.Repository
-import com.miyako.wannews.entity.NewsEntity
+import com.miyako.wannews.entity.IndexArticleEntity
 import com.miyako.wannews.entity.ProjectClassEntity
 import com.miyako.wannews.entity.ProjectEntity
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -25,8 +20,17 @@ class ContentPagesViewModel: BaseViewModel() {
 
     val projectClassLiveData = MutableLiveData<List<ProjectClassEntity>>()
 
-    fun getNewsPage(): Flow<PagingData<NewsEntity>> {
-        return Repository.getNewsPageData().cachedIn(viewModelScope)
+    val indexTopArticleLiveData = MutableLiveData<List<IndexArticleEntity>>()
+
+    fun getIndexTopArticle(): Flow<List<IndexArticleEntity>> {
+        launchUI {
+            indexTopArticleLiveData.value = Repository.getIndexTopArticle()
+        }
+        return indexTopArticleLiveData.asFlow()
+    }
+
+    fun getIndexArticlePage(): Flow<PagingData<IndexArticleEntity>> {
+        return Repository.getIndexArticlePageData().cachedIn(viewModelScope)
     }
 
     fun getProjectClass(): Flow<List<ProjectClassEntity>> {

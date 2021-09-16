@@ -3,47 +3,12 @@ package com.miyako.wannews.network
 import com.google.gson.annotations.SerializedName
 
 /**
- * @Description
+ * @Description 网络请求获取的接口数据实体类
  * @Author Miyako
- * @Date 2021-09-14-0014
+ * @Date 2021-08-30-0030
  */
-data class ProjectClassDto(
-    @SerializedName("data")
-    val projectClassList: List<ProjectClass>,
-    val errorCode: Int,
-    val errorMsg: String
-)
-
-data class ProjectClass(
-    val children: List<Any>,
-    val courseId: Int,
-    val id: Int,
-    val name: String,
-    val order: Int,
-    val parentChapterId: Int,
-    val userControlSetTop: Boolean,
-    val visible: Int
-)
-
-data class ProjectPageDto(
-    @SerializedName("data")
-    val projectPage: ProjectPage,
-    val errorCode: Int,
-    val errorMsg: String
-)
-
-data class ProjectPage(
-    val curPage: Int,
-    @SerializedName("datas")
-    val datas: List<Project>,
-    val offset: Int,
-    val over: Boolean,
-    val pageCount: Int,
-    val size: Int,
-    val total: Int
-)
-
-data class Project(
+// 首页置顶文章
+data class IndexTopDto(
     val apkLink: String,
     val audit: Int,
     val author: String,
@@ -71,7 +36,58 @@ data class Project(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<ProjectTag>,
+    val tags: List<IndexTopTag>,
+    val title: String,
+    val type: Int,
+    val userId: Int,
+    val visible: Int,
+    val zan: Int
+)
+data class IndexTopTag(
+    val name: String,
+    val url: String
+)
+
+data class ArticlePageDto(
+    val curPage: Int,
+    @SerializedName("datas")
+    val datas: List<Article>,
+    val offset: Int,
+    val over: Boolean,
+    val pageCount: Int,
+    val size: Int,
+    val total: Int
+)
+
+data class Article(
+    val apkLink: String,
+    val audit: Int,
+    val author: String,
+    val canEdit: Boolean,
+    val chapterId: Int,
+    val chapterName: String,
+    val collect: Boolean,
+    val courseId: Int,
+    val desc: String,
+    val descMd: String,
+    val envelopePic: String,
+    val fresh: Boolean,
+    val host: String,
+    val id: Int,
+    val link: String,
+    val niceDate: String,
+    val niceShareDate: String,
+    val origin: String,
+    val prefix: String,
+    val projectLink: String,
+    val publishTime: Long,
+    val realSuperChapterId: Int,
+    val selfVisible: Int,
+    val shareDate: Long,
+    val shareUser: String,
+    val superChapterId: Int,
+    val superChapterName: String,
+    val tags: List<ArticleTag>,
     val title: String,
     val type: Int,
     val userId: Int,
@@ -79,8 +95,7 @@ data class Project(
     val zan: Int
 )
 
-data class ProjectTag(
+data class ArticleTag(
     val name: String,
     val url: String
 )
-

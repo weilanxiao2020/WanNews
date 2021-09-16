@@ -13,13 +13,18 @@ class MyApplication : Application() {
 
         // 用户信息
 //        var userInfo: UserInfoBody? = null
-        lateinit var instance: Application
-        lateinit var mContext: Context
+        private lateinit var instance: Application
+        private lateinit var mContext: Context
+
+        fun getInstance(): Application {
+            return instance
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+        mContext = this.applicationContext
         LogUtils.level = LogUtils.LogLevel.VERBOSE
         CrashHandler().init(this)
         registerActivityLifecycleCallbacks(ActivityLifecycleCallbacks())

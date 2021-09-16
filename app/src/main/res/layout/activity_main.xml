@@ -33,27 +33,27 @@
             style="@style/home_bottom_item_style"
             android:drawableTop="@drawable/rb_news_selector"
             android:textColor="@drawable/bottom_text_selector"
-            android:text="@string/rb_bottom_news_label" />
+            android:text="@string/rb_bottom_index_label" />
 
         <RadioButton
             android:id="@+id/rb_project_page"
             style="@style/home_bottom_item_style"
             android:drawableTop="@drawable/rb_project_selector"
-            android:text="@string/rb_bottom_project_label"
+            android:text="@string/rb_bottom_guide_label"
             android:textColor="@drawable/bottom_text_selector"/>
 
         <RadioButton
             android:id="@+id/rb_part_page"
             style="@style/home_bottom_item_style"
             android:drawableTop="@drawable/rb_part_selector"
-            android:text="@string/rb_bottom_part_label"
+            android:text="@string/rb_bottom_public_label"
             android:textColor="@drawable/bottom_text_selector"/>
 
         <RadioButton
             android:id="@+id/rb_public_page"
             style="@style/home_bottom_item_style"
             android:drawableTop="@drawable/rb_public_selector"
-            android:text="@string/rb_bottom_public_label"
+            android:text="@string/rb_bottom_question_label"
             android:textColor="@drawable/bottom_text_selector" />
 
         <RadioButton

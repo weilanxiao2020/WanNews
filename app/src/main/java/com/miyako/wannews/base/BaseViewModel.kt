@@ -13,7 +13,7 @@ open class BaseViewModel : ViewModel() {
     fun launchUI(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch {
         try {
             withTimeout(5000) {
-                // block()
+                block()
             }
         } catch (e: Exception) {
             //此处接收到BaseRepository里的request抛出的异常，直接赋值给error

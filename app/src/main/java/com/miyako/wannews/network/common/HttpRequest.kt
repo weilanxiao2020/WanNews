@@ -3,6 +3,7 @@ package com.miyako.wannews.network.common
 import com.miyako.util.LogUtils
 import com.miyako.wannews.base.Constants
 import com.miyako.wannews.network.api.IArticleService
+import com.miyako.wannews.network.api.IIndexService
 import com.miyako.wannews.network.api.IProjectService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,8 +31,20 @@ class HttpRequest : IDataRequest() {
             .build()
     }
 
+    fun getIndexService(): IIndexService {
+        var service: IDataService? = serviceMap[IIndexService::class.java]
+        if (service == null) {
+            LogUtils.w(TAG, "index service is null")
+            service = retrofit.create(IIndexService::class.java)
+            serviceMap[IIndexService::class.java] = service
+            LogUtils.w(TAG, "create index service success")
+        }
+        LogUtils.d(TAG, "get article index success")
+        return service as IIndexService
+    }
+
     fun getArticleService() : IArticleService {
-        var service: IDataService? = serviceMap[IArticleService::class.java] as IProjectService?
+        var service: IDataService? = serviceMap[IArticleService::class.java]
         if (service == null) {
             LogUtils.w(TAG, "article service is null")
             service = retrofit.create(IArticleService::class.java)

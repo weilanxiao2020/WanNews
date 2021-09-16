@@ -1,7 +1,10 @@
 package com.miyako.wannews.data.repository
 
 import com.miyako.util.LogUtils
+import com.miyako.wannews.network.ProjectClassDto
+import com.miyako.wannews.network.ProjectPageDto
 import com.miyako.wannews.network.common.HttpRequest
+import com.miyako.wannews.network.dto.ResultDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -14,23 +17,13 @@ class ProjectRepository : IBaseRepository {
 
     private val service = HttpRequest.getInstance().getProjectService()
 
-    suspend fun getProjectClasses() = withContext(Dispatchers.IO) {
-        try {
-            LogUtils.d(TAG, "getProjectClasses")
-            service.getProjectClass()
-        } catch (e: Exception) {
-            LogUtils.e(TAG, "getProjectClasses: ${e.message}")
-            null
-        }
+    suspend fun getProjectClasses(): ResultDto<List<ProjectClassDto>> = request {
+        LogUtils.d(TAG, "getProjectClasses")
+        service.getProjectClass()
     }
 
-    suspend fun getProjectList(page: Int, pageSize: Int, classId: Int) = withContext(Dispatchers.IO) {
-        try {
-            service.getProjectList(page = page, pageSize = pageSize, classId = classId)
-        } catch (e: Exception) {
-            LogUtils.e(TAG, "getProjectList: ${e.message}")
-            null
-        }
+    suspend fun getProjectList(page: Int, pageSize: Int, classId: Int): ResultDto<ProjectPageDto> = request {
+        service.getProjectList(page = page, pageSize = pageSize, classId = classId)
     }
 
 }

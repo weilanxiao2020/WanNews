@@ -5,18 +5,14 @@ package com.miyako.wannews.entity
  * @Author Miyako
  * @Date 2021-08-30-0030
  */
-data class NewsEntity(
+data class IndexArticleEntity(
     val title: String,
     val author: String,
     val publishTime: Long,
-    val link: String) {
-}
+    val link: String,
+    val tags: List<IndexArticleTag>)
 
-data class NewsEntityList(
-    val count: Int,
-    val next: String?,
-    val previous: String?,
-    val results: List<NewsEntity>
-) {
-
-}
+data class IndexArticleTag(
+    val name: String,
+    val url: String
+)

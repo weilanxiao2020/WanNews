@@ -2,11 +2,11 @@
     <string name="app_name">WanNews</string>
 
     <!-- 底部导航栏 -->
-    <string name="rb_bottom_news_label">资讯</string>
-    <string name="rb_bottom_project_label">项目</string>
-    <string name="rb_bottom_part_label">广场</string>
+    <string name="rb_bottom_index_label">首页</string>
+    <string name="rb_bottom_guide_label">导航</string>
     <string name="rb_bottom_public_label">公众号</string>
-    <string name="rb_bottom_mine_label">用户</string>
+    <string name="rb_bottom_question_label">问答</string>
+    <string name="rb_bottom_mine_label">我的</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="news_carousel">轮播图</string>

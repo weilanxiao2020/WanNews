@@ -247,14 +247,14 @@ fun Navigation(navController: NavHostController) {
     val viewModel = remember {
         ContentPagesViewModel()
     }
-    NavHost(navController, startDestination = NavigationItem.News.route) {
-        composable(NavigationItem.News.route) {
-            NewsScreen(viewModel)
+    NavHost(navController, startDestination = NavigationItem.Index.route) {
+        composable(NavigationItem.Index.route) {
+            IndexScreen(viewModel)
         }
-        composable(NavigationItem.Project.route) {
+        composable(NavigationItem.Guide.route) {
             ProjectScreen(viewModel)
         }
-        composable(NavigationItem.Part.route) {
+        composable(NavigationItem.Question.route) {
             PartScreen()
         }
         composable(NavigationItem.Public.route) {
@@ -271,9 +271,9 @@ const val KEY_ROUTE = "key_route"
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationItem.News,
-        NavigationItem.Project,
-        NavigationItem.Part,
+        NavigationItem.Index,
+        NavigationItem.Guide,
+        NavigationItem.Question,
         NavigationItem.Public,
         NavigationItem.Mine
     )
@@ -282,7 +282,7 @@ fun BottomNavigationBar(navController: NavController) {
         backgroundColor = Color.White,
     ) {
         var currentRoute by remember {
-            mutableStateOf(NavigationItem.News.route)
+            mutableStateOf(NavigationItem.Index.route)
         }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         // val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)

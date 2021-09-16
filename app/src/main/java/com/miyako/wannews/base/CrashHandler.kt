@@ -18,8 +18,8 @@ public class CrashHandler : Thread.UncaughtExceptionHandler {
     private val DEBUG = true
 
     //文件路径
-    private val LOG_PATH: String = MyApplication.instance.getExternalFilesDir("log")?.absolutePath ?: ""
-    private val CRASH_LOG_PATH: String = MyApplication.instance.getExternalFilesDir("crash")?.absolutePath ?: ""
+    private val LOG_PATH: String = MyApplication.getInstance().getExternalFilesDir("log")?.absolutePath ?: ""
+    private val CRASH_LOG_PATH: String = MyApplication.getInstance().getExternalFilesDir("crash")?.absolutePath ?: ""
     private val FILE_NAME = "crash"
     private val FILE_NAME_SUFEIX = ".trace"
     private var mDefaultCrashHandler: Thread.UncaughtExceptionHandler? = null
