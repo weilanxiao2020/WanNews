@@ -5,4 +5,6 @@
     
     <dimen name="home_news_carousel_height">120dp</dimen>
 
+    <dimen name="bottomNavigationBarContentSize">25sp</dimen>
+
 </resources>

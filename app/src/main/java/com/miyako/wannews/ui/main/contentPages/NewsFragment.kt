@@ -1,4 +1,4 @@
-package com.miyako.wannews.ui.main.news
+package com.miyako.wannews.ui.main.contentPages
 
 import android.os.Bundle
 import com.miyako.util.LogUtils

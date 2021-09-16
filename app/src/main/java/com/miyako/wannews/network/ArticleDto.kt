@@ -1,14 +1,23 @@
-package com.miyako.wannews.data
+package com.miyako.wannews.network
 
-data class ArticleDto(
-    val data: Data,
+import com.google.gson.annotations.SerializedName
+
+/**
+ * @Description 网络请求获取的接口数据实体类
+ * @Author Miyako
+ * @Date 2021-08-30-0030
+ */
+data class ArticlePageDto(
+    @SerializedName("data")
+    val articlePage: ArticlePage,
     val errorCode: Int,
     val errorMsg: String
 )
 
-data class Data(
+data class ArticlePage(
     val curPage: Int,
-    val datas: List<DataX>,
+    @SerializedName("datas")
+    val datas: List<Article>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,
@@ -16,7 +25,7 @@ data class Data(
     val total: Int
 )
 
-data class DataX(
+data class Article(
     val apkLink: String,
     val audit: Int,
     val author: String,
@@ -44,7 +53,7 @@ data class DataX(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Tag>,
+    val tags: List<ArticleTag>,
     val title: String,
     val type: Int,
     val userId: Int,
@@ -52,7 +61,7 @@ data class DataX(
     val zan: Int
 )
 
-data class Tag(
+data class ArticleTag(
     val name: String,
     val url: String
 )

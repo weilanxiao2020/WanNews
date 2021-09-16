@@ -5,24 +5,27 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.miyako.util.LogUtils
 import com.miyako.wannews.R
 import com.miyako.wannews.base.BaseActivity
-import com.miyako.wannews.ui.main.news.NewsFragment
+import com.miyako.wannews.ui.theme.Blue
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Response
-
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.*
+import com.miyako.wannews.base.MyApplication.Companion.TAG
+import com.miyako.wannews.ui.main.contentPages.*
 
 class MainActivity : BaseActivity() {
 
@@ -46,64 +49,65 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val newsMenu = remember {
-                mutableStateOf(MenuState(true, newResId, newColor))
-            }
-            val projectMenu = remember {
-                mutableStateOf(MenuState(false, projectResId, projectColor))
-            }
-            val partMenu = remember {
-                mutableStateOf(MenuState(false, partResId, partColor))
-            }
-            val publicMenu = remember {
-                mutableStateOf(MenuState(false, publicResId, publicColor))
-            }
-            val mineMenu = remember {
-                mutableStateOf(MenuState(false, mineResId, mineColor))
-            }
+            MainScreen()
+            // val newsMenu = remember {
+            //     mutableStateOf(MenuState(true, newResId, newColor))
+            // }
+            // val projectMenu = remember {
+            //     mutableStateOf(MenuState(false, projectResId, projectColor))
+            // }
+            // val partMenu = remember {
+            //     mutableStateOf(MenuState(false, partResId, partColor))
+            // }
+            // val publicMenu = remember {
+            //     mutableStateOf(MenuState(false, publicResId, publicColor))
+            // }
+            // val mineMenu = remember {
+            //     mutableStateOf(MenuState(false, mineResId, mineColor))
+            // }
+            //
+            // val menuIdx = remember {
+            //     mutableStateOf(0)
+            // }
 
-            val menuIdx = remember {
-                mutableStateOf(0)
-            }
-
-            Row() {
-                LogUtils.d(TAG, "recompose")
-                bottomMenu(getString(R.string.rb_bottom_news_label),
-                    newsMenu.value.resId(),
-                    newsMenu.value.textColor(),
-                    Modifier.clickable {
-                        menuIdx.value = 0
-                        changeMenu(newsMenu.value)
-                    })
-                bottomMenu(getString(R.string.rb_bottom_project_label),
-                    projectMenu.value.resId(),
-                    projectMenu.value.textColor(),
-                    Modifier.clickable {
-                        menuIdx.value = 1
-                        changeMenu(projectMenu.value)
-                    })
-                bottomMenu(getString(R.string.rb_bottom_part_label),
-                    partMenu.value.resId(),
-                    partMenu.value.textColor(),
-                    Modifier.clickable {
-                        menuIdx.value = 2
-                        changeMenu(partMenu.value)
-                    })
-                bottomMenu(getString(R.string.rb_bottom_public_label),
-                    publicMenu.value.resId(),
-                    publicMenu.value.textColor(),
-                    Modifier.clickable {
-                        menuIdx.value = 3
-                        changeMenu(publicMenu.value)
-                    })
-                bottomMenu(getString(R.string.rb_bottom_mine_label),
-                    mineMenu.value.resId(),
-                    mineMenu.value.textColor(),
-                    Modifier.clickable {
-                        menuIdx.value = 4
-                        changeMenu(mineMenu.value)
-                    })
-            }
+            // Row() {
+            //     LogUtils.d(TAG, "recompose")
+            //     bottomMenu(getString(R.string.rb_bottom_news_label),
+            //         newsMenu.value.resId(),
+            //         newsMenu.value.textColor(),
+            //         Modifier.clickable {
+            //             menuIdx.value = 0
+            //             changeMenu(newsMenu.value)
+            //         })
+            //     bottomMenu(getString(R.string.rb_bottom_project_label),
+            //         projectMenu.value.resId(),
+            //         projectMenu.value.textColor(),
+            //         Modifier.clickable {
+            //             menuIdx.value = 1
+            //             changeMenu(projectMenu.value)
+            //         })
+            //     bottomMenu(getString(R.string.rb_bottom_part_label),
+            //         partMenu.value.resId(),
+            //         partMenu.value.textColor(),
+            //         Modifier.clickable {
+            //             menuIdx.value = 2
+            //             changeMenu(partMenu.value)
+            //         })
+            //     bottomMenu(getString(R.string.rb_bottom_public_label),
+            //         publicMenu.value.resId(),
+            //         publicMenu.value.textColor(),
+            //         Modifier.clickable {
+            //             menuIdx.value = 3
+            //             changeMenu(publicMenu.value)
+            //         })
+            //     bottomMenu(getString(R.string.rb_bottom_mine_label),
+            //         mineMenu.value.resId(),
+            //         mineMenu.value.textColor(),
+            //         Modifier.clickable {
+            //             menuIdx.value = 4
+            //             changeMenu(mineMenu.value)
+            //         })
+            // }
         }
     }
 
@@ -138,49 +142,6 @@ class MainActivity : BaseActivity() {
         LogUtils.d(TAG, "menu is checked:"+menustate.isChecked)
         menustate.isChecked = !menustate.isChecked
         LogUtils.d(TAG, "after menu is checked:"+menustate.isChecked)
-    }
-
-    @Preview
-    @Composable
-    fun bottomMenu() {
-        val isChecked = remember {
-            mutableStateOf(true)
-        }
-        val resId = remember {
-            mutableStateOf(R.mipmap.ic_rb_bottom_news)
-        }
-        val textColor = remember {
-            mutableStateOf(Color.Black)
-        }
-        bottomMenu("首页",
-            resId.value,
-            textColor.value,
-            Modifier.clickable {
-                isChecked.value = !isChecked.value
-                if (isChecked.value) {
-                    resId.value = R.mipmap.ic_rb_bottom_news_selected
-                    textColor.value = Color.Red
-                } else {
-                    resId.value = R.mipmap.ic_rb_bottom_news
-                    textColor.value = Color.Black
-                }
-            })
-
-    }
-
-    @Composable
-    fun bottomMenu(menu: String, resId: Int, textColor: Color, modifier: Modifier) {
-        Box {
-            Column(modifier = modifier) {
-                Image(painterResource(id = resId),
-                    contentDescription = "",
-                    Modifier.align(Alignment.CenterHorizontally))
-                Text(text = menu,
-                    fontSize = 12.sp,
-                    style = TextStyle(color = textColor)
-                )
-            }
-        }
     }
 
     override fun getLayoutId() : Int{
@@ -258,5 +219,160 @@ class MainActivity : BaseActivity() {
 
     override fun requestData() {
         getArticle(0)
+    }
+}
+
+@Composable
+fun MainScreen() {
+    val navController = rememberNavController()
+    Scaffold(
+        topBar = { TopBar() },
+        bottomBar = { BottomNavigationBar(navController) }
+    ) {
+        Navigation(navController)
+    }
+}
+
+@Composable
+fun TopBar() {
+    TopAppBar(
+        title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+        backgroundColor = colorResource(id = R.color.theme_color),
+        contentColor = Color.White
+    )
+}
+
+@Composable
+fun Navigation(navController: NavHostController) {
+    val viewModel = remember {
+        ContentPagesViewModel()
+    }
+    NavHost(navController, startDestination = NavigationItem.News.route) {
+        composable(NavigationItem.News.route) {
+            NewsScreen(viewModel)
+        }
+        composable(NavigationItem.Project.route) {
+            ProjectScreen(viewModel)
+        }
+        composable(NavigationItem.Part.route) {
+            PartScreen()
+        }
+        composable(NavigationItem.Public.route) {
+            PublicScreen()
+        }
+        composable(NavigationItem.Mine.route) {
+            MineScreen()
+        }
+    }
+}
+
+const val KEY_ROUTE = "key_route"
+
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    val items = listOf(
+        NavigationItem.News,
+        NavigationItem.Project,
+        NavigationItem.Part,
+        NavigationItem.Public,
+        NavigationItem.Mine
+    )
+
+    BottomNavigation(
+        backgroundColor = Color.White,
+    ) {
+        var currentRoute by remember {
+            mutableStateOf(NavigationItem.News.route)
+        }
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        // val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+        LogUtils.d(TAG, "current route:${currentRoute}")
+        items.forEachIndexed { index, item ->
+            BottomNavigationItem(
+                selected = currentRoute == item.route,
+                icon = {
+                    if (currentRoute == item.route) {
+                        Image(painterResource(id = item.selectIcon), contentDescription = "")
+                    } else {
+                        Image(painterResource(id = item.normalIcon), contentDescription = "")
+                    }
+                },
+                    label = {
+                        if (currentRoute == item.route) {
+                            Text(text = item.title, color = Blue)
+                        } else {
+                            Text(text = item.title, color = Color.Gray)
+                        }
+                            },
+                    // selectedContentColor = Color.White.copy(0.6f),
+                    // unselectedContentColor = Red,
+                    alwaysShowLabel = true,
+                    onClick = {
+                        /* Add code later */
+                        navController.navigate(item.route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            navBackStackEntry?.arguments?.putString(KEY_ROUTE, item.route)
+                            LogUtils.d(TAG, "click route:${item.route}")
+                            currentRoute = item.route
+                            navController.graph.startDestinationRoute?.let { route ->
+                                popUpTo(route) {
+                                    saveState = true
+                                }
+                            }
+                            // // Avoid multiple copies of the same destination when
+                            // // reselecting the same item
+                            // launchSingleTop = true
+                            // // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
+                    }
+            )
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun bottomMenu() {
+    val isChecked = remember {
+        mutableStateOf(true)
+    }
+    val resId = remember {
+        mutableStateOf(R.mipmap.ic_rb_bottom_news)
+    }
+    val textColor = remember {
+        mutableStateOf(Color.Black)
+    }
+    bottomMenu("首s页",
+        resId.value,
+        textColor.value,
+        Modifier.clickable {
+            isChecked.value = !isChecked.value
+            if (isChecked.value) {
+                resId.value = R.mipmap.ic_rb_bottom_news_selected
+                textColor.value = Color.Red
+            } else {
+                resId.value = R.mipmap.ic_rb_bottom_news
+                textColor.value = Color.Black
+            }
+        })
+
+}
+
+@Composable
+fun bottomMenu(menu: String, resId: Int, textColor: Color, modifier: Modifier) {
+    Box {
+        Column(modifier = modifier) {
+            Image(painterResource(id = resId),
+                contentDescription = "",
+                Modifier.align(Alignment.CenterHorizontally))
+            Text(text = menu,
+                fontSize = 12.sp,
+                style = TextStyle(color = textColor)
+            )
+        }
     }
 }

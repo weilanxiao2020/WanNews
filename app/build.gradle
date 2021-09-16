@@ -45,24 +45,44 @@ android {
 
 dependencies {
 
+    def page_version = "3.0.1"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
+    def retrofit_version = "2.7.2"
     // retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
+    // jetpack
+    // compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    implementation 'androidx.activity:activity-compose:1.3.0-alpha06'
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.activity:activity-compose:$compose_version"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha05"
+
+    // compose 常用组件依赖
+    implementation "com.google.accompanist:accompanist-coil:0.11.0"
+    implementation "com.google.accompanist:accompanist-insets:0.17.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.18.0"
+
+    // paging
+    implementation "androidx.paging:paging-runtime:$page_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha12"
 
 
     testImplementation 'junit:junit:4.+'
