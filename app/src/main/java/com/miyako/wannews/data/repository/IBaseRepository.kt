@@ -25,7 +25,7 @@ interface IBaseRepository {
         return withContext(Dispatchers.IO) {
             call.invoke()
         }.apply {
-            LogUtils.d("接口返回数据----->", this.toString())
+            LogUtils.d(TAG, "接口返回数据-----> ${this.toString()}")
             //这儿可以对返回结果errorCode做一些特殊处理，比如token失效等，可以通过抛出异常的方式实现
             //例：当token失效时，后台返回errorCode 为 100，下面代码实现,再到baseActivity通过观察error来处理
             when (errorCode) {
@@ -35,7 +35,10 @@ interface IBaseRepository {
                 // 403 -> throw NoPermissionsException(errorMsg)
                 // 404 -> throw NotFoundException(errorMsg)
                 // 500 -> throw InterfaceErrException(errorMsg)
-                else -> throw Exception(errorMsg)
+                else -> {
+                    LogUtils.e(TAG, "网络请求错误：$errorMsg")
+                    throw Exception(errorMsg)
+                }
             }
         }
     }
@@ -45,15 +48,19 @@ object Repository {
 
     val TAG = Repository::class.java.simpleName
 
-    private val indexRepository = IndexRepository()
+    private val indexRepository = HomeRepository()
     private val projectRepository = ProjectRepository()
+    private val guideRepository = GuideRepository()
 
-    suspend fun getIndexTopArticle(): List<IndexArticleEntity> {
+    /**
+     * 首页置顶文章
+     */
+    suspend fun getHomeTopArticle(): List<HomeArticleEntity> {
         return try {
-            val result = indexRepository.getIndexTopArticle()
-            val list = mutableListOf<IndexArticleEntity>()
+            val result = indexRepository.getHomeTopArticle()
+            val list = mutableListOf<HomeArticleEntity>()
             result.resultData.forEach { it ->
-                val entity = IndexArticleEntity(
+                val entity = HomeArticleEntity(
                     title = it.title, author = it.author, publishTime = it.publishTime, link = it.link,
                     tags = it.tags.asSequence().map { IndexArticleTag(it.name, it.url) }.toList()
                 )
@@ -61,11 +68,14 @@ object Repository {
             }
             list
         } catch (e: Exception) {
-            listOf<IndexArticleEntity>()
+            listOf<HomeArticleEntity>()
         }
     }
 
-    fun getIndexArticlePageData(): Flow<PagingData<IndexArticleEntity>> {
+    /**
+     * 首页文章分页
+     */
+    fun getHomeArticlePageData(): Flow<PagingData<HomeArticleEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10, //一次加载20条
@@ -78,6 +88,44 @@ object Repository {
         ).flow
     }
 
+    /**
+     * 获取导航分类
+     */
+    suspend fun getGuideClass(): List<GuideClassEntity> {
+        return try {
+            val result = guideRepository.getGuideClass()
+            val list = mutableListOf<GuideClassEntity>()
+            result.resultData.forEach {
+                val entity = GuideClassEntity(id = it.cid, name = it.name)
+                list.add(entity)
+            }
+            list
+        } catch (e: Exception) {
+            listOf<GuideClassEntity>()
+        }
+    }
+
+    /**
+     * 获取分类
+     */
+    suspend fun getSystemTree(): List<SystemTreeEntity> {
+        return try {
+            val result = guideRepository.getSystemTree()
+            val list = mutableListOf<SystemTreeEntity>()
+            result.resultData.forEach {
+                val entity = SystemTreeEntity(id = it.id, name = it.name)
+                list.add(entity)
+            }
+            list
+        } catch (e: Exception) {
+            LogUtils.e(TAG, e.toString())
+            listOf<SystemTreeEntity>()
+        }
+    }
+
+    /**
+     * 获取项目分类
+     */
     suspend fun getProjectClass(): List<ProjectClassEntity> {
         return try {
             val result = projectRepository.getProjectClasses()
@@ -94,6 +142,9 @@ object Repository {
         }
     }
 
+    /**
+     * 获取指定项目分类
+     */
     fun getProjectPage(classId: Int): Flow<PagingData<ProjectEntity>> {
         return Pager(
             config = PagingConfig(

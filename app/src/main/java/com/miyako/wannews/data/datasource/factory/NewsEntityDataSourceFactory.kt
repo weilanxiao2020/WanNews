@@ -3,7 +3,7 @@ package com.miyako.wannews.data.datasource.factory
 import androidx.paging.DataSource
 import androidx.lifecycle.MutableLiveData
 import com.miyako.wannews.data.datasource.NewsEntityDataSource
-import com.miyako.wannews.entity.IndexArticleEntity
+import com.miyako.wannews.entity.HomeArticleEntity
 
 
 /**
@@ -11,11 +11,11 @@ import com.miyako.wannews.entity.IndexArticleEntity
  * @Author Miyako
  * @Date 2021-09-06-0006
  */
-class NewsEntityDataSourceFactory : DataSource.Factory<Int, IndexArticleEntity>(), IBaseDataSourceFactory {
+class NewsEntityDataSourceFactory : DataSource.Factory<Int, HomeArticleEntity>(), IBaseDataSourceFactory {
 
     private val mSourceLiveData: MutableLiveData<NewsEntityDataSource> = MutableLiveData<NewsEntityDataSource>()
     private var mLastDataSource: NewsEntityDataSource? = null
-    override fun create(): DataSource<Int, IndexArticleEntity> {
+    override fun create(): DataSource<Int, HomeArticleEntity> {
         TODO("Not yet implemented")
     }
 

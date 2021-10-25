@@ -1,5 +1,6 @@
 package com.miyako.wannews.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -25,6 +26,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.miyako.wannews.base.MyApplication.Companion.TAG
+import com.miyako.wannews.ui.main.GuideScreen.GuideScreen
+import com.miyako.wannews.ui.main.HomeScreen.HomeScreen
+import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.main.contentPages.*
 
 class MainActivity : BaseActivity() {
@@ -49,7 +53,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+            MainScreen(this)
             // val newsMenu = remember {
             //     mutableStateOf(MenuState(true, newResId, newColor))
             // }
@@ -223,13 +227,33 @@ class MainActivity : BaseActivity() {
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(context: Context) {
     val navController = rememberNavController()
     Scaffold(
         topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController) }
     ) {
-        Navigation(navController)
+
+        NavHost(
+            navController = navController,
+            startDestination = NavigationItem.Index.route) {
+            composable(NavigationItem.Index.route) {
+                HomeScreen(navController = navController, context = context)
+            }
+            composable(NavigationItem.Guide.route) {
+                GuideScreen(navController = navController)
+            }
+            composable(NavigationItem.Question.route) {
+                PartScreen()
+            }
+            composable(NavigationItem.Public.route) {
+                PublicScreen()
+            }
+            composable(NavigationItem.Mine.route) {
+                MineScreen()
+            }
+        }
+        // Navigation(navController)
     }
 }
 
@@ -245,7 +269,7 @@ fun TopBar() {
 @Composable
 fun Navigation(navController: NavHostController) {
     val viewModel = remember {
-        ContentPagesViewModel()
+        HomeScreenViewModel()
     }
     NavHost(navController, startDestination = NavigationItem.Index.route) {
         composable(NavigationItem.Index.route) {

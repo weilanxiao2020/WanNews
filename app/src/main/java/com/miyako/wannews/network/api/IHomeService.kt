@@ -10,8 +10,8 @@ import retrofit2.http.GET
  * @Author Miyako
  * @Date 2021-09-16-0016
  */
-interface IIndexService: IDataService {
+interface IHomeService: IDataService {
 
     @GET("/article/top/json")
-    suspend fun getIndexTopArticle(): ResultDto<List<IndexTopDto>>
+    suspend fun getHomeTopArticle(): ResultDto<List<IndexTopDto>>
 }

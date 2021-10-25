@@ -15,9 +15,6 @@ private val DarkColorPalette = darkColors(
         background = LightGray
 )
 
-val Colors.textPrimary: Color
-        @Composable get() = Color.Black
-
 private val LightColorPalette = lightColors(
         primary = Purple500,
         primaryVariant = Purple700,
@@ -33,8 +30,14 @@ private val LightColorPalette = lightColors(
     */
 )
 
+val Colors.textPrimary: Color
+    @Composable get() = Color.Black
+
+val Colors.guideBack: Color
+    @Composable get() = MiddleGray
+
 @Composable
-fun MyComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MyComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
@@ -42,9 +45,9 @@ fun MyComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     }
 
     MaterialTheme(
-            colors = colors,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
     )
 }

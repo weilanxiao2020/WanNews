@@ -5,7 +5,7 @@ package com.miyako.wannews.entity
  * @Author Miyako
  * @Date 2021-08-30-0030
  */
-data class IndexArticleEntity(
+data class HomeArticleEntity(
     val title: String,
     val author: String,
     val publishTime: Long,

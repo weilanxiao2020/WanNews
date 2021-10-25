@@ -20,19 +20,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.asLiveData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.miyako.util.LogUtils
 import com.miyako.wannews.R
-import com.miyako.wannews.entity.IndexArticleEntity
+import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.theme.SmallPadding
 import com.miyako.wannews.ui.theme.listTitle
 import com.miyako.wannews.ui.theme.textPrimary
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.toList
 import java.util.*
 
 /**
@@ -44,11 +40,11 @@ const val TAG = "ContentPages"
 
 //region News
 @Composable
-fun IndexScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
+fun IndexScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
     LogUtils.d(TAG, "compose")
 
-    val topArticle = viewModel.getIndexTopArticle().collectAsState(listOf())
-    val articleList = viewModel.getIndexArticlePage().collectAsLazyPagingItems()
+    val topArticle = viewModel.getHomeTopArticle().collectAsState(listOf())
+    val articleList = viewModel.getHomeArticlePage().collectAsLazyPagingItems()
 
     val flag = remember {
         mutableStateOf(false)
@@ -71,7 +67,7 @@ fun IndexScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    viewModel.getIndexArticlePage()
+                    viewModel.getHomeArticlePage()
                 }
         )
         SwipeRefresh(
@@ -117,7 +113,7 @@ fun HomeScreenPreview() {
 }
 
 @Composable
-fun ProjectScreen(viewModel: ContentPagesViewModel = ContentPagesViewModel()) {
+fun ProjectScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
     // Column(
     //     modifier = Modifier
     //         .fillMaxSize()
