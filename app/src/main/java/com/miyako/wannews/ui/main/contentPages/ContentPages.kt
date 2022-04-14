@@ -29,6 +29,7 @@ import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.theme.SmallPadding
 import com.miyako.wannews.ui.theme.listTitle
 import com.miyako.wannews.ui.theme.textPrimary
+import com.miyako.wannews.util.JNIUtils
 import java.util.*
 
 /**
@@ -255,6 +256,13 @@ fun MineScreen() {
             textAlign = TextAlign.Center,
             fontSize = 25.sp
         )
+        Button(onClick = {
+            System.loadLibrary("WanNews")
+            JNIUtils.get()
+            // LogUtils.d(TAG, "jni result: " + JNIUtils.getPsShell(arrayOf("sss")))
+        }) {
+            Text(text = "执行shell")
+        }
     }
 }
 

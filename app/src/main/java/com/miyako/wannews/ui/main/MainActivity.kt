@@ -1,7 +1,9 @@
 package com.miyako.wannews.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.miyako.wannews.base.MyApplication.Companion.TAG
+import com.miyako.wannews.ui.demo.OtherThreadActivity
 import com.miyako.wannews.ui.main.GuideScreen.GuideScreen
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreen
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
@@ -113,6 +116,10 @@ class MainActivity : BaseActivity() {
             //         })
             // }
         }
+
+        // startActivity(Intent(this, OtherThreadActivity::class.java))
+        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        startActivity(intent)
     }
 
     class ResId(val uncheckId: Int, val checkId: Int) {}

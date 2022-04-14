@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.demo.OtherThreadActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_exact_text"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Origin Text"/>
+
+        <TextView
+            android:id="@+id/tv_wrap_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Origin Text"/>
+
+        <TextView
+            android:id="@+id/tv_after_request_layout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Origin Text"/>
+
+        <TextView
+            android:id="@+id/tv_other_view_root_impl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Origin Text"/>
+
+        <SurfaceView
+            android:id="@+id/surface_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_exact_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="固定尺寸View，子线程更新"/>
+
+    <Button
+        android:id="@+id/btn_wrap_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="不固定尺寸View，子线程更新"/>
+
+    <Button
+        android:id="@+id/btn_after_request_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="主线程执行requestLayout后，子线程更新"/>
+
+    <Button
+        android:id="@+id/btn_other_view_root_impl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="子线程添加ViewRootImpl，子线程更新"/>
+
+    <Button
+        android:id="@+id/btn_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="更新SurfaceView，子线程更新"/>
+
+</LinearLayout>
