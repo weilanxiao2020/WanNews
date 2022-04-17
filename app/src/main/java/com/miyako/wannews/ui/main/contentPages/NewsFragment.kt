@@ -1,7 +1,7 @@
 package com.miyako.wannews.ui.main.contentPages
 
 import android.os.Bundle
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.R
 import com.miyako.wannews.base.BaseFragment
 import com.miyako.wannews.base.BaseViewModel
@@ -22,6 +22,6 @@ class NewsFragment : BaseFragment() {
 
     override fun initData(savedInstanceState: Bundle?): UInt {
         TODO("Not yet implemented")
-        LogUtils.d(TAG, "init data")
+        com.miyako.architecture.util.LogUtils.d(TAG, "init data")
     }
 }

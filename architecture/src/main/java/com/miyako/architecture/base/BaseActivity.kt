@@ -1,14 +1,11 @@
-package com.miyako.wannews.base
+package com.miyako.architecture.base
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.miyako.wannews.network.common.HttpRequest
 
 abstract class BaseActivity : ComponentActivity() {
 
-    val TAG = javaClass.simpleName
-
-    val httpRequest = HttpRequest.getInstance()
+    protected val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

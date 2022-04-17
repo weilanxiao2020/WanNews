@@ -2,10 +2,9 @@ package com.miyako.wannews.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.data.repository.ProjectRepository
 import com.miyako.wannews.entity.ProjectEntity
-import com.miyako.wannews.network.ArticlePageDto
 import com.miyako.wannews.network.ProjectPageDto
 import kotlin.random.Random
 
@@ -32,9 +31,9 @@ class ProjectPageDataSource(
         val result = repo.getProjectList(loadPage, params.loadSize, classid)
         return if (result != null) {
             return LoadResult.Page(
-                data = convertEntity(result.resultData),
+                data = convertEntity(result.responseData!!),
                 prevKey = null,
-                nextKey = if (result.resultData.over) null else result.resultData.curPage + 1
+                nextKey = if (result.responseData!!.over) null else result.responseData!!.curPage + 1
             )
         } else {
             LoadResult.Error(throwable = Throwable())

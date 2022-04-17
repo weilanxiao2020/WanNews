@@ -2,12 +2,10 @@ package com.miyako.wannews.ui.main.GuideScreen
 
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.base.BaseViewModel
 import com.miyako.wannews.data.repository.Repository
 import com.miyako.wannews.entity.GuideClassEntity
-import com.miyako.wannews.entity.ProjectClassEntity
-import com.miyako.wannews.entity.ProjectEntity
 import com.miyako.wannews.entity.SystemTreeEntity
 import com.miyako.wannews.ui.main.contentPages.TAG
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +27,7 @@ class GuideScreenViewModel: BaseViewModel() {
      * 获取导航分类数据
      */
     fun getGuide(): Flow<List<GuideClassEntity>> {
-        LogUtils.e(TAG, "getGuide")
+        com.miyako.architecture.util.LogUtils.e(TAG, "getGuide")
         viewModelScope.launch {
             val result = Repository.getGuideClass()
             guideClassLiveData.value = result
@@ -38,7 +36,7 @@ class GuideScreenViewModel: BaseViewModel() {
     }
 
     fun getSystem(): Flow<List<SystemTreeEntity>> {
-        LogUtils.e(TAG, "getSystem")
+        com.miyako.architecture.util.LogUtils.e(TAG, "getSystem")
         viewModelScope.launch {
             val result = Repository.getSystemTree()
             systemTreeLiveData.value = result

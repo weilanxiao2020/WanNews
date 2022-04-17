@@ -4,8 +4,8 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 
-import com.miyako.util.LogUtils;
-import com.miyako.wannews.base.MyApplication;
+import com.miyako.architecture.util.LogUtils;
+import com.miyako.architecture.util.Utils;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class JNIUtils {
 
     public static native String getPsShell(String[] pkgArr);
     public static void get() {
-        Context context = MyApplication.Companion.getInstance();
+        Context context = Utils.Companion.getApp();
         UsageStatsManager usageManager=(UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         if (usageManager != null) {
             int intervalType = UsageStatsManager.INTERVAL_BEST;

@@ -2,12 +2,10 @@ package com.miyako.wannews.ui.demo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
-import androidx.compose.ui.graphics.Color
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.R
 import kotlin.concurrent.thread
 
@@ -24,7 +22,7 @@ class OtherThreadActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_exact_size).setOnClickListener {
             val textView = findViewById<TextView>(R.id.tv_exact_text)
             thread {
-                LogUtils.d(TAG, "固定尺寸更新，子线程")
+                com.miyako.architecture.util.LogUtils.d(TAG, "固定尺寸更新，子线程")
                 textView.text = "固定尺寸更新，子线程"
                 // 不出错，开启硬件加速
             }
@@ -42,7 +40,7 @@ class OtherThreadActivity : AppCompatActivity() {
             // region 不出错
             textView.text = "other"
             thread {
-                LogUtils.d(TAG, "不固定尺寸更新，子线程")
+                com.miyako.architecture.util.LogUtils.d(TAG, "不固定尺寸更新，子线程")
                 textView.text = "固定尺寸更新，子线程"
             }
             // endregion
@@ -52,7 +50,7 @@ class OtherThreadActivity : AppCompatActivity() {
             val textView = findViewById<TextView>(R.id.tv_after_request_layout_text)
             textView.requestLayout()
             thread {
-                LogUtils.d(TAG, "requestLayout后，子线程")
+                com.miyako.architecture.util.LogUtils.d(TAG, "requestLayout后，子线程")
                 textView.text = "requestLayout后，子线程"
             }
         }
@@ -81,7 +79,7 @@ class OtherThreadActivity : AppCompatActivity() {
             override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
                 thread {
                     if (!isDestroyed) {
-                        LogUtils.d(TAG, "Surface，子线程")
+                        com.miyako.architecture.util.LogUtils.d(TAG, "Surface，子线程")
                         Thread.sleep(2000)
                         val lockCanvas = holder.lockCanvas()
                         lockCanvas.drawColor(android.graphics.Color.RED)

@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.miyako.util.LogUtils
-import com.miyako.wannews.R
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.ui.main.ContainerFragment
-import com.miyako.wannews.ui.main.ContainerViewModel
 
 abstract class BaseFragment : Fragment() {
 

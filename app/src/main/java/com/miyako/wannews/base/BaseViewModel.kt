@@ -2,7 +2,7 @@ package com.miyako.wannews.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout

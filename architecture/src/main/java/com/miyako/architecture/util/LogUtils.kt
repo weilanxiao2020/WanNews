@@ -1,15 +1,19 @@
-package com.miyako.util
+package com.miyako.architecture.util
 
 import android.util.Log
-import javax.security.auth.login.LoginException
 
+/**
+ * @Description 日志工具类
+ * @Author Miyako
+ * @Date 2022-04-14-0014
+ */
 object LogUtils {
 
     enum class LogLevel {
         VERBOSE, DEBUG, INFO, WARN, ERROR
     }
 
-    var level:LogLevel = LogLevel.VERBOSE
+    var level: LogLevel = LogLevel.VERBOSE
         set(value) {
             Log.e("LogUtils", "set level = $value")
             field = value

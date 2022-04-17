@@ -1,12 +1,10 @@
 package com.miyako.wannews.ui.article
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
+import com.miyako.architecture.base.BaseActivity
 import com.miyako.wannews.R
-import android.webkit.WebSettings
-import com.miyako.util.LogUtils
-import com.miyako.wannews.base.BaseActivity
+import com.miyako.architecture.util.LogUtils
 
 class ArticleActivity : BaseActivity() {
 

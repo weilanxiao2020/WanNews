@@ -1,9 +1,6 @@
 package com.miyako.wannews.util;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.miyako.util.LogUtils;
+import com.miyako.architecture.util.LogUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

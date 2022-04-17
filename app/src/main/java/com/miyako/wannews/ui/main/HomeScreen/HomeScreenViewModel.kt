@@ -2,7 +2,7 @@ package com.miyako.wannews.ui.main.HomeScreen
 
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.base.BaseViewModel
 import com.miyako.wannews.data.repository.Repository
 import com.miyako.wannews.entity.HomeArticleEntity
@@ -44,7 +44,7 @@ class HomeScreenViewModel: BaseViewModel() {
      * 获取首页文章分页
      */
     fun getProjectClass(): Flow<List<ProjectClassEntity>> {
-        LogUtils.e(TAG, "......")
+        com.miyako.architecture.util.LogUtils.e(TAG, "......")
         viewModelScope.launch {
             val result = Repository.getProjectClass()
             projectClassLiveData.value = result

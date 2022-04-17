@@ -8,6 +8,7 @@ import android.os.Environment
 import android.os.Process.killProcess
 import android.os.Process.myPid
 import android.util.Log
+import com.miyako.architecture.util.Utils
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,8 +19,8 @@ public class CrashHandler : Thread.UncaughtExceptionHandler {
     private val DEBUG = true
 
     //文件路径
-    private val LOG_PATH: String = MyApplication.getInstance().getExternalFilesDir("log")?.absolutePath ?: ""
-    private val CRASH_LOG_PATH: String = MyApplication.getInstance().getExternalFilesDir("crash")?.absolutePath ?: ""
+    private val LOG_PATH: String = Utils.getApp().getExternalFilesDir("log")?.absolutePath ?: ""
+    private val CRASH_LOG_PATH: String = Utils.getApp().getExternalFilesDir("crash")?.absolutePath ?: ""
     private val FILE_NAME = "crash"
     private val FILE_NAME_SUFEIX = ".trace"
     private var mDefaultCrashHandler: Thread.UncaughtExceptionHandler? = null

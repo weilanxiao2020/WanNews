@@ -1,5 +1,6 @@
 package com.miyako.wannews.network.api
 
+import com.miyako.architecture.domain.result.ResultData
 import com.miyako.wannews.network.ProjectClassDto
 import com.miyako.wannews.network.ProjectPageDto
 import com.miyako.wannews.network.common.IDataService
@@ -17,10 +18,10 @@ import retrofit2.http.Query
 interface IProjectService: IDataService {
 
     @GET("/project/tree/json")
-    suspend fun getProjectClass(): ResultDto<List<ProjectClassDto>>
+    suspend fun getProjectClass(): ResultData<List<ProjectClassDto>>
 
     @GET("/project/list/{page}/json")
     suspend fun getProjectList(@Path("page") page: Int,
                                @Query("page_size") pageSize:Int,
-                               @Query("cid") classId: Int): ResultDto<ProjectPageDto>
+                               @Query("cid") classId: Int): ResultData<ProjectPageDto>
 }

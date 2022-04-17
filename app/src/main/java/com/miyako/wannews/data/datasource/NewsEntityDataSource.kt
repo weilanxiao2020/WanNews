@@ -2,7 +2,7 @@ package com.miyako.wannews.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.data.repository.HomeRepository
 import com.miyako.wannews.entity.HomeArticleEntity
 import com.miyako.wannews.entity.IndexArticleTag
@@ -33,9 +33,9 @@ class NewsEntityDataSource(
             val result = repo.getArticleList(loadPage, params.loadSize)
             LogUtils.d(TAG, "ssss:${result?:"asdasd"}")
             LoadResult.Page(
-                data = convertEntity(result.resultData),
+                data = convertEntity(result.responseData!!),
                 prevKey = null,
-                nextKey = if (result.resultData.over) null else result.resultData.curPage
+                nextKey = if (result.responseData!!.over) null else result.responseData!!.curPage
             )
         } catch (e: Exception) {
             LoadResult.Error(throwable = Throwable())

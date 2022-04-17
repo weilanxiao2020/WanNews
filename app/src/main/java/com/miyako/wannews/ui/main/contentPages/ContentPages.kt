@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.miyako.util.LogUtils
+import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.R
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.theme.SmallPadding
@@ -42,7 +42,7 @@ const val TAG = "ContentPages"
 //region News
 @Composable
 fun IndexScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
-    LogUtils.d(TAG, "compose")
+    com.miyako.architecture.util.LogUtils.d(TAG, "compose")
 
     val topArticle = viewModel.getHomeTopArticle().collectAsState(listOf())
     val articleList = viewModel.getHomeArticlePage().collectAsLazyPagingItems()

@@ -2,29 +2,20 @@ package com.miyako.wannews.base
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
-import com.miyako.util.LogUtils
+import com.miyako.architecture.base.BaseApplication
+import com.miyako.architecture.util.LogUtils
+import com.miyako.architecture.util.Utils
 
-class MyApplication : Application() {
+class App : BaseApplication() {
 
     companion object {
-        const val TAG = "MyApplication"
-
-        // 用户信息
-//        var userInfo: UserInfoBody? = null
-        private lateinit var instance: Application
-        private lateinit var mContext: Context
-
-        fun getInstance(): Application {
-            return instance
-        }
+        const val TAG = "App"
     }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        mContext = this.applicationContext
+        Utils.init(this)
         LogUtils.level = LogUtils.LogLevel.VERBOSE
         CrashHandler().init(this)
         registerActivityLifecycleCallbacks(ActivityLifecycleCallbacks())
