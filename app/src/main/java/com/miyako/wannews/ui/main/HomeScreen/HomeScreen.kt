@@ -2,7 +2,6 @@ package com.miyako.wannews.ui.main.HomeScreen
 
 import android.content.Context
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,11 +24,11 @@ import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.miyako.architecture.util.DateUtils
 import com.miyako.wannews.R
+import com.miyako.wannews.entity.HomeArticleEntity
 import com.miyako.wannews.ui.article.ArticleActivity
-import com.miyako.wannews.ui.theme.listTitle
-import com.miyako.wannews.ui.theme.textPrimary
-import java.util.*
+import com.miyako.wannews.ui.theme.*
 
 /**
  * @Description 首页内容，包括轮播图，最新文章列表
@@ -80,38 +79,59 @@ fun HomeScreen(
                     val article = if (idx < topArticle.value.size) topArticle.value[idx]
                     else articleList[idx - topArticle.value.size]
                     article?.let {
-                        Column(
-                            modifier = Modifier
-                                .clickable {
-                                    val intent = Intent(context, ArticleActivity::class.java)
-                                    intent.putExtra(ArticleActivity.KEY_URL, it.link)
-                                    context.startActivity(intent)
-                                }
-                        ) {
-                            Text(text = it.title,
-                                style = MaterialTheme.typography.listTitle,
-                                color = MaterialTheme.colors.textPrimary,
-                                modifier = Modifier
-                                    .padding(4.dp, 4.dp, 4.dp, 0.dp))
-                            Column(
-                                Modifier
-                                    .padding(4.dp, 0.dp)
-                                    .fillMaxWidth()) {
-                                Text(text = it.author,
-                                    color = MaterialTheme.colors.textPrimary, modifier = Modifier
-                                        .padding(4.dp, 0.dp)
-                                        .wrapContentWidth())
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    Text(text = SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(Date(it.publishTime)),
-                                        color = MaterialTheme.colors.textPrimary, modifier = Modifier.wrapContentWidth(Alignment.End))
-                                }
-                            }
-                            Divider(modifier = Modifier.padding(0.dp, 4.dp))
+                        HomeItem(
+                            modifier = Modifier,
+                            itemData = it) {
+                            val intent = Intent(context, ArticleActivity::class.java)
+                            intent.putExtra(ArticleActivity.KEY_URL, it.link)
+                            context.startActivity(intent)
                         }
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun HomeItem(modifier: Modifier = Modifier,
+             itemData: HomeArticleEntity,
+             click: () -> Unit) {
+    Column(
+        modifier = modifier
+            // .clickable {
+            //     click()
+            // }
+    ) {
+        Column(
+            modifier = Modifier
+                .clickable {
+                    click()
+                }
+                .padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+            ) {
+                Text(text = itemData.author,
+                    style = MaterialTheme.typography.articleAuthor,
+                    color = MaterialTheme.colors.guideBack,
+                    modifier = Modifier
+                        .weight(1f))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Text(text = DateUtils.toDate(itemData.publishTime),
+                        color = MaterialTheme.colors.guideBack,
+                        modifier = Modifier.wrapContentWidth(Alignment.End))
+                }
+            }
+            Text(text = itemData.title,
+                style = MaterialTheme.typography.articleTitle,
+                color = MaterialTheme.colors.textPrimary,
+                modifier = Modifier
+                    .padding(vertical = 4.dp))
+            Text(
+                text = itemData.chapterName)
+        }
+        Divider()
     }
 }

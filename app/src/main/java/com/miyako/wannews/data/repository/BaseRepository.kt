@@ -68,7 +68,11 @@ object Repository {
             val list = mutableListOf<HomeArticleEntity>()
             result.responseData?.forEach { it ->
                 val entity = HomeArticleEntity(
-                    title = it.title, author = it.author, publishTime = it.publishTime, link = it.link,
+                    title = it.title,
+                    author = it.author,
+                    publishTime = it.publishTime,
+                    link = it.link,
+                    chapterName = it.chapterName,
                     tags = it.tags.asSequence().map { IndexArticleTag(it.name, it.url) }.toList()
                 )
                 list.add(entity)

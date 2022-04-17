@@ -44,7 +44,6 @@ class HomeScreenViewModel: BaseViewModel() {
      * 获取首页文章分页
      */
     fun getProjectClass(): Flow<List<ProjectClassEntity>> {
-        com.miyako.architecture.util.LogUtils.e(TAG, "......")
         viewModelScope.launch {
             val result = Repository.getProjectClass()
             projectClassLiveData.value = result

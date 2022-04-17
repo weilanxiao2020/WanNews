@@ -77,7 +77,7 @@ class ResponseConverterFactory: Converter.Factory() {
                     }
                     if (jsonObject.has("data")) {
                         val dataJson = jsonObject.get("data").toString()
-                        LogUtils.d(TAG, "data: $dataJson")
+                        // LogUtils.d(TAG, "data: $dataJson")
                         LogUtils.d(TAG, "type: $type")
                         if (type is ParameterizedType) {
                             val type1 = type.actualTypeArguments[0]

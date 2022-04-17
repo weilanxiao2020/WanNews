@@ -23,11 +23,10 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.miyako.architecture.util.LogUtils
 import com.miyako.wannews.R
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.theme.SmallPadding
-import com.miyako.wannews.ui.theme.listTitle
+import com.miyako.wannews.ui.theme.articleTitle
 import com.miyako.wannews.ui.theme.textPrimary
 import com.miyako.wannews.util.JNIUtils
 import java.util.*
@@ -82,7 +81,7 @@ fun IndexScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                     val article = if (idx < topArticle.value.size) topArticle.value[idx]
                                     else articleList[idx - topArticle.value.size]
                     article?.let {
-                        Text(text = it.title, style = MaterialTheme.typography.listTitle,
+                        Text(text = it.title, style = MaterialTheme.typography.articleTitle,
                             color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 4.dp, 4.dp, 0.dp))
                         Column(
                             Modifier
@@ -151,7 +150,7 @@ fun ProjectScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                 .fillMaxWidth()
                 .padding(SmallPadding)) {
             items(projectClass.value.size) { index ->
-                Text(text = projectClass.value[index].name, style = MaterialTheme.typography.listTitle,
+                Text(text = projectClass.value[index].name, style = MaterialTheme.typography.articleTitle,
                     color = MaterialTheme.colors.textPrimary, modifier = Modifier.padding(4.dp, 0.dp))
             }
         }

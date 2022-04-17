@@ -10,6 +10,7 @@ data class HomeArticleEntity(
     val author: String,
     val publishTime: Long,
     val link: String,
+    val chapterName: String,
     val tags: List<IndexArticleTag>)
 
 data class IndexArticleTag(

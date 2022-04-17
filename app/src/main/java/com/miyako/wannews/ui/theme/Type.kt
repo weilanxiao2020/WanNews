@@ -1,7 +1,6 @@
 package com.miyako.wannews.ui.theme
 
 import androidx.compose.material.Typography
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -27,9 +26,15 @@ val Typography = Typography(
     )
     */
 )
-val Typography.listTitle: TextStyle
+val Typography.articleTitle: TextStyle
         get() = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
 )
+val Typography.articleAuthor: TextStyle
+        get() = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp
+        )

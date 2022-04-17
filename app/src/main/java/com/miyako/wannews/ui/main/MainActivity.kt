@@ -1,9 +1,7 @@
 package com.miyako.wannews.ui.main
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,11 +25,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.miyako.architecture.base.BaseActivity
-import com.miyako.wannews.base.App.Companion.TAG
+import com.miyako.wannews.base.App
 import com.miyako.wannews.ui.main.GuideScreen.GuideScreen
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreen
 import com.miyako.wannews.ui.main.HomeScreen.HomeScreenViewModel
 import com.miyako.wannews.ui.main.contentPages.*
+import com.miyako.wannews.util.Constants.KEY
 
 class MainActivity : BaseActivity() {
 
@@ -117,8 +116,8 @@ class MainActivity : BaseActivity() {
         }
 
         // startActivity(Intent(this, OtherThreadActivity::class.java))
-        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-        startActivity(intent)
+        // val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        // startActivity(intent)
     }
 
     class ResId(val uncheckId: Int, val checkId: Int) {}
@@ -230,24 +229,62 @@ class MainActivity : BaseActivity() {
     override fun requestData() {
         getArticle(0)
     }
-}
 
-@Composable
-fun MainScreen(context: Context) {
-    val navController = rememberNavController()
-    Scaffold(
-        topBar = { TopBar() },
-        bottomBar = { BottomNavigationBar(navController) }
-    ) {
+    @Composable
+    fun MainScreen(context: Context) {
+        val navController = rememberNavController()
+        Scaffold(
+            topBar = { TopBar() },
+            bottomBar = { BottomNavigationBar(navController) }
+        ) {
 
-        NavHost(
-            navController = navController,
-            startDestination = NavigationItem.Index.route) {
+            NavHost(
+                navController = navController,
+                startDestination = NavigationItem.Index.route) {
+                composable(NavigationItem.Index.route) {
+                    HomeScreen(navController = navController, context = context)
+                }
+                composable(NavigationItem.Guide.route) {
+                    GuideScreen(navController = navController)
+                }
+                composable(NavigationItem.Question.route) {
+                    PartScreen()
+                }
+                composable(NavigationItem.Public.route) {
+                    PublicScreen()
+                }
+                composable(NavigationItem.Mine.route) {
+                    MineScreen()
+                }
+            }
+            // Navigation(navController)
+        }
+    }
+
+    /**
+     * 顶部标题栏
+     */
+    @Composable
+    fun TopBar() {
+        TopAppBar(
+            title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+            backgroundColor = colorResource(id = R.color.theme_color),
+            contentColor = Color.White
+        )
+    }
+
+    @Deprecated(message = "底部导航栏")
+    @Composable
+    fun Navigation(navController: NavHostController) {
+        val viewModel = remember {
+            HomeScreenViewModel()
+        }
+        NavHost(navController, startDestination = NavigationItem.Index.route) {
             composable(NavigationItem.Index.route) {
-                HomeScreen(navController = navController, context = context)
+                IndexScreen(viewModel)
             }
             composable(NavigationItem.Guide.route) {
-                GuideScreen(navController = navController)
+                ProjectScreen(viewModel)
             }
             composable(NavigationItem.Question.route) {
                 PartScreen()
@@ -259,81 +296,48 @@ fun MainScreen(context: Context) {
                 MineScreen()
             }
         }
-        // Navigation(navController)
     }
-}
 
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
-        backgroundColor = colorResource(id = R.color.theme_color),
-        contentColor = Color.White
-    )
-}
 
-@Composable
-fun Navigation(navController: NavHostController) {
-    val viewModel = remember {
-        HomeScreenViewModel()
-    }
-    NavHost(navController, startDestination = NavigationItem.Index.route) {
-        composable(NavigationItem.Index.route) {
-            IndexScreen(viewModel)
-        }
-        composable(NavigationItem.Guide.route) {
-            ProjectScreen(viewModel)
-        }
-        composable(NavigationItem.Question.route) {
-            PartScreen()
-        }
-        composable(NavigationItem.Public.route) {
-            PublicScreen()
-        }
-        composable(NavigationItem.Mine.route) {
-            MineScreen()
-        }
-    }
-}
+    /**
+     * 底部导航栏
+     */
+    @Composable
+    fun BottomNavigationBar(navController: NavController) {
+        val items = listOf(
+            NavigationItem.Index,
+            NavigationItem.Guide,
+            NavigationItem.Question,
+            NavigationItem.Public,
+            NavigationItem.Mine
+        )
 
-const val KEY_ROUTE = "key_route"
-
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    val items = listOf(
-        NavigationItem.Index,
-        NavigationItem.Guide,
-        NavigationItem.Question,
-        NavigationItem.Public,
-        NavigationItem.Mine
-    )
-
-    BottomNavigation(
-        backgroundColor = Color.White,
-    ) {
-        var currentRoute by remember {
-            mutableStateOf(NavigationItem.Index.route)
-        }
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        // val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-        LogUtils.d(TAG, "current route:${currentRoute}")
-        items.forEachIndexed { index, item ->
-            BottomNavigationItem(
-                selected = currentRoute == item.route,
-                icon = {
-                    if (currentRoute == item.route) {
-                        Image(painterResource(id = item.selectIcon), contentDescription = "")
-                    } else {
-                        Image(painterResource(id = item.normalIcon), contentDescription = "")
-                    }
-                },
+        BottomNavigation(
+            backgroundColor = Color.White,
+        ) {
+            var currentRoute by remember {
+                mutableStateOf(NavigationItem.Index.route)
+            }
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            // val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+            LogUtils.d(App.TAG, "current route:${currentRoute}")
+            items.forEach { item ->
+                BottomNavigationItem(
+                    selected = currentRoute == item.route,
+                    icon = {
+                        if (currentRoute == item.route) {
+                            Image(painterResource(id = item.selectIcon), contentDescription = "")
+                        } else {
+                            Image(painterResource(id = item.normalIcon), contentDescription = "")
+                        }
+                    },
                     label = {
                         if (currentRoute == item.route) {
                             Text(text = item.title, color = Blue)
                         } else {
                             Text(text = item.title, color = Color.Gray)
                         }
-                            },
+                    },
                     // selectedContentColor = Color.White.copy(0.6f),
                     // unselectedContentColor = Red,
                     alwaysShowLabel = true,
@@ -343,8 +347,8 @@ fun BottomNavigationBar(navController: NavController) {
                             // Pop up to the start destination of the graph to
                             // avoid building up a large stack of destinations
                             // on the back stack as users select items
-                            navBackStackEntry?.arguments?.putString(KEY_ROUTE, item.route)
-                            LogUtils.d(TAG, "click route:${item.route}")
+                            navBackStackEntry?.arguments?.putString(KEY.ROUTE, item.route)
+                            LogUtils.d(App.TAG, "click route:${item.route}")
                             currentRoute = item.route
                             navController.graph.startDestinationRoute?.let { route ->
                                 popUpTo(route) {
@@ -358,51 +362,52 @@ fun BottomNavigationBar(navController: NavController) {
                             restoreState = true
                         }
                     }
-            )
+                )
+            }
         }
     }
-}
 
 
-@Preview
-@Composable
-fun bottomMenu() {
-    val isChecked = remember {
-        mutableStateOf(true)
+    @Preview(name = "底部导航栏按钮预览")
+    @Composable
+    fun BottomMenu() {
+        val isChecked = remember {
+            mutableStateOf(true)
+        }
+        val resId = remember {
+            mutableStateOf(R.mipmap.ic_rb_bottom_news)
+        }
+        val textColor = remember {
+            mutableStateOf(Color.Black)
+        }
+        BottomMenu("首s页",
+            resId.value,
+            textColor.value,
+            Modifier.clickable {
+                isChecked.value = !isChecked.value
+                if (isChecked.value) {
+                    resId.value = R.mipmap.ic_rb_bottom_news_selected
+                    textColor.value = Color.Red
+                } else {
+                    resId.value = R.mipmap.ic_rb_bottom_news
+                    textColor.value = Color.Black
+                }
+            })
+
     }
-    val resId = remember {
-        mutableStateOf(R.mipmap.ic_rb_bottom_news)
-    }
-    val textColor = remember {
-        mutableStateOf(Color.Black)
-    }
-    bottomMenu("首s页",
-        resId.value,
-        textColor.value,
-        Modifier.clickable {
-            isChecked.value = !isChecked.value
-            if (isChecked.value) {
-                resId.value = R.mipmap.ic_rb_bottom_news_selected
-                textColor.value = Color.Red
-            } else {
-                resId.value = R.mipmap.ic_rb_bottom_news
-                textColor.value = Color.Black
+
+    @Composable
+    fun BottomMenu(menu: String, resId: Int, textColor: Color, modifier: Modifier) {
+        Box {
+            Column(modifier = modifier) {
+                Image(painterResource(id = resId),
+                    contentDescription = "",
+                    Modifier.align(Alignment.CenterHorizontally))
+                Text(text = menu,
+                    fontSize = 12.sp,
+                    style = TextStyle(color = textColor)
+                )
             }
-        })
-
-}
-
-@Composable
-fun bottomMenu(menu: String, resId: Int, textColor: Color, modifier: Modifier) {
-    Box {
-        Column(modifier = modifier) {
-            Image(painterResource(id = resId),
-                contentDescription = "",
-                Modifier.align(Alignment.CenterHorizontally))
-            Text(text = menu,
-                fontSize = 12.sp,
-                style = TextStyle(color = textColor)
-            )
         }
     }
 }

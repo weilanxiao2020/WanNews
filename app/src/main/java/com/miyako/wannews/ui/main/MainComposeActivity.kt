@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.res.painterResource
 import com.miyako.wannews.R
 
+@Deprecated(message = "废弃")
 class MainComposeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

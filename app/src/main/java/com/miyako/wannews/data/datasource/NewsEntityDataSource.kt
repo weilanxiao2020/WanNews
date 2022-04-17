@@ -51,7 +51,10 @@ class NewsEntityDataSource(
                     "佚名"
                 } else {
                     it.author
-                }, publishTime = it.publishTime, link = it.link, it.tags.asSequence().map { IndexArticleTag(it.name, it.url) }.toList()))
+                }, publishTime = it.publishTime,
+                    link = it.link,
+                    chapterName = it.chapterName,
+                    tags = it.tags.asSequence().map { IndexArticleTag(it.name, it.url) }.toList()))
             }
             LogUtils.d(TAG, "list size:${list.size}")
         }

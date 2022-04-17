@@ -5,7 +5,7 @@ import com.miyako.wannews.R
 import com.miyako.wannews.base.App
 
 /**
- * @Description
+ * @Description 底部导航栏路由封装类
  * @Author Miyako
  * @Date 2021-08-22-0022
  */
